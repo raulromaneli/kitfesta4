@@ -185,7 +185,7 @@ Error generating stack: `+l.message+`
   }
 </style>
 
-<section class="kfv-showcase">
+<section class="kfv-showcase" style="visibility: hidden;">
   <div class="kfv-showcase__head">
     <span class="kfv-showcase__tag">Chega prontinho na sua casa</span>
     <h2 class="kfv-showcase__title">Veja o que <em>voc&ecirc;recebe</em> ao comprar</h2>
@@ -211,5 +211,37 @@ Error generating stack: `+l.message+`
     </div>
   </div>
 </section>
-</body>
+<script>
+(function () {
+  function moverCarrossel() {
+    var carrossel = document.querySelector('.kfv-showcase');
+    if (!carrossel) return false;
+
+    var alvo = null;
+    var candidatos = document.querySelectorAll('h1, h2, h3');
+    for (var i = 0; i < candidatos.length; i++) {
+      if (candidatos[i].textContent.indexOf('Provas reais de quem') !== -1) {
+        alvo = candidatos[i];
+        break;
+      }
+    }
+    if (!alvo) return false;
+
+    var container = alvo.closest('section') || alvo.parentElement;
+    if (!container || !container.parentElement) return false;
+
+    container.parentElement.insertBefore(carrossel, container);
+    carrossel.style.visibility = 'visible';
+    return true;
+  }
+
+  var tentativas = 0;
+  var intervalo = setInterval(function () {
+    tentativas++;
+    if (moverCarrossel() || tentativas > 40) {
+      clearInterval(intervalo);
+    }
+  }, 250);
+})();
+</script></body>
 </html>
