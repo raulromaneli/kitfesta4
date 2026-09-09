@@ -245,29 +245,14 @@ Error generating stack: `+l.message+`
 })();
   </script>
 <script>
-(function () {
-  function linkarBotaoBiblioteca() {
-    var botoes = document.querySelectorAll('button, a');
-    for (var i = 0; i < botoes.length; i++) {
-      if (botoes[i].textContent.trim().indexOf('Quero a biblioteca completa') !== -1) {
-        botoes[i].style.cursor = 'pointer';
-        botoes[i].addEventListener('click', function (e) {
-          e.preventDefault();
-          window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
-        });
-        return true;
-      }
-    }
-    return false;
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('button, a');
+  if (el && el.textContent && el.textContent.trim().indexOf('Quero a biblioteca completa') !== -1) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
   }
-
-  var tentativasBtn = 0;
-  var intervaloBtn = setInterval(function () {
-    tentativasBtn++;
-    if (linkarBotaoBiblioteca() || tentativasBtn > 40) {
-      clearInterval(intervaloBtn);
-    }
-  }, 250);
-})();
-</script></body>
+}, true);
+</script>
+</body>
 </html>
