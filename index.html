@@ -247,10 +247,26 @@ Error generating stack: `+l.message+`
 <script>
 document.addEventListener('click', function (e) {
   var el = e.target.closest('button, a');
-  if (el && el.textContent && el.textContent.trim().indexOf('Quero a biblioteca completa') !== -1) {
+  if (!el || !el.textContent) return;
+  var texto = el.textContent.trim();
+
+  if (texto.indexOf('Quero a biblioteca completa') !== -1) {
     e.preventDefault();
     e.stopPropagation();
     window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
+    return;
+  }
+
+  if (texto.indexOf('Quero o essencial') !== -1) {
+    e.preventDefault();
+    e.stopPropagation();
+    var quer = window.confirm('Espera! A Biblioteca Viva (R$ 21,90) tem muito mais vantagens que o Kit Essencial: mais moldes, area de membros e todos os bonus inclusos. Quer levar a Biblioteca Viva em vez do Kit Essencial?');
+    if (quer) {
+      window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
+    } else {
+      window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCB';
+    }
+    return;
   }
 }, true);
 </script>
