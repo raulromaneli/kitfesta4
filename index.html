@@ -244,31 +244,86 @@ Error generating stack: `+l.message+`
   }, 250);
 })();
   </script>
+<style>
+.kfv-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 99999; padding: 16px;
+  font-family: 'Nunito', sans-serif;
+}
+.kfv-modal-box {
+  background: #fff; border-radius: 18px; max-width: 420px; width: 100%;
+  padding: 28px 24px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+.kfv-modal-box h3 { font-size: 20px; margin: 0 0 10px; color: #222; }
+.kfv-modal-sub { font-size: 16px; color: #333; margin: 0 0 14px; font-weight: 700; }
+.kfv-modal-price-old { color: #999; text-decoration: line-through; font-size: 14px; }
+.kfv-modal-price-new { color: #16a34a; font-size: 36px; font-weight: 800; margin: 2px 0 18px; }
+.kfv-modal-list { text-align: left; list-style: none; padding: 0; margin: 0 0 22px; }
+.kfv-modal-list li { margin-bottom: 9px; font-size: 14.5px; color: #333; }
+.kfv-modal-list li b { color: #e0218a; }
+.kfv-modal-btn-primary {
+  display: block; width: 100%; background: #22c55e; color: #fff; border: none;
+  padding: 15px; border-radius: 10px; font-weight: 800; font-size: 15px;
+  cursor: pointer; margin-bottom: 10px;
+}
+.kfv-modal-btn-secondary {
+  display: block; width: 100%; background: #fff; color: #333; border: 1px solid #ccc;
+  padding: 14px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer;
+}
+</style>
 <script>
-document.addEventListener('click', function (e) {
-  var el = e.target.closest('button, a');
-  if (!el || !el.textContent) return;
-  var texto = el.textContent.trim();
+(function () {
+  var modalHTML =
+    '<div class="kfv-modal-overlay" id="kfvModalOverlay">' +
+      '<div class="kfv-modal-box">' +
+        '<h3>&#9888;&#65039; Espere! Oferta Especial &#128293;</h3>' +
+        '<p class="kfv-modal-sub">Leve a Biblioteca Viva com desconto exclusivo!</p>' +
+        '<div class="kfv-modal-price-old">De R$ 67,90</div>' +
+        '<div class="kfv-modal-price-new">R$ 21,90</div>' +
+        '<ul class="kfv-modal-list">' +
+          '<li>&#9989; +1.000 moldes prontos</li>' +
+          '<li>&#9989; &Aacute;rea de membros exclusiva</li>' +
+          '<li>&#9989; <b>B&Ocirc;NUS:</b> todos os 6 b&ocirc;nus inclusos</li>' +
+          '<li>&#9989; Acesso vital&iacute;cio + suporte</li>' +
+        '</ul>' +
+        '<button class="kfv-modal-btn-primary" id="kfvModalAceitar">QUERO A BIBLIOTECA COM DESCONTO</button>' +
+        '<button class="kfv-modal-btn-secondary" id="kfvModalRecusar">Continuar com o Essencial (R$ 10,90)</button>' +
+      '</div>' +
+    '</div>';
 
-  if (texto.indexOf('Quero a biblioteca completa') !== -1) {
-    e.preventDefault();
-    e.stopPropagation();
-    window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
-    return;
-  }
-
-  if (texto.indexOf('Quero o essencial') !== -1) {
-    e.preventDefault();
-    e.stopPropagation();
-    var quer = window.confirm('Espera! A Biblioteca Viva (R$ 21,90) tem muito mais vantagens que o Kit Essencial: mais moldes, area de membros e todos os bonus inclusos. Quer levar a Biblioteca Viva em vez do Kit Essencial?');
-    if (quer) {
+  function abrirModal() {
+    if (document.getElementById('kfvModalOverlay')) return;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById('kfvModalAceitar').addEventListener('click', function () {
       window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
-    } else {
+    });
+    document.getElementById('kfvModalRecusar').addEventListener('click', function () {
       window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCB';
-    }
-    return;
+    });
   }
-}, true);
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('button, a');
+    if (!el || !el.textContent) return;
+    var texto = el.textContent.trim();
+
+    if (texto.indexOf('Quero a biblioteca completa') !== -1) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = 'https://go.perfectpay.com.br/PPU38CQFDCD';
+      return;
+    }
+
+    if (texto.indexOf('Quero o essencial') !== -1) {
+      e.preventDefault();
+      e.stopPropagation();
+      abrirModal();
+      return;
+    }
+  }, true);
+})();
 </script>
 <!-- Meta Pixel Code -->
 <script>
